@@ -199,7 +199,19 @@ module ActiveRecord
           super
         end
       end
-      
+
+      def create_savepoint(name = current_savepoint_name)
+        master_connection.create_savepoint(name)
+      end
+
+      def rollback_to_savepoint(name = current_savepoint_name)
+        master_connection.rollback_to_savepoint(name)
+      end
+
+      def release_savepoint(name = current_savepoint_name)
+        master_connection.release_savepoint(name)
+      end
+
       def visitor=(visitor)
         all_connections.each{|conn| conn.visitor = visitor}
       end
